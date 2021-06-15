@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
 const User = require("../models/User");
 
+//@POST REGISTER NEW USER
 router.post("/register", async (req, res) => {
   try {
     let { email, password, passwordCheck, displayName } = req.body;
@@ -27,7 +28,7 @@ router.post("/register", async (req, res) => {
         .status(400)
         .json({ msg: "An account with this email already exists." });
 
-    if (!displayName) displayName = email;
+    if (!displayName) return displayName = email;
 
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
@@ -44,6 +45,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
+//@POST LOGIN
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -75,7 +77,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-
+//DELETE
 router.delete("/delete", auth, async (req, res) => {
   try {
     const deletedUser = await User.findByIdAndDelete(req.user);
@@ -85,6 +87,7 @@ router.delete("/delete", auth, async (req, res) => {
   }
 });
 
+//@POST JWT VALIDATOR
 router.post("/tokenIsValid", async (req, res) => {
   try {
     const token = req.header("x-auth-token");
@@ -102,6 +105,7 @@ router.post("/tokenIsValid", async (req, res) => {
   }
 });
 
+//@GET CLIENT'S USERNAME IF ALL CREDENTIALS ARE VALID
 router.get("/", auth, async (req, res) => {
   const user = await User.findById(req.user);
   res.json({
