@@ -24,5 +24,8 @@ mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopolo
 //establish /USERS route
 app.use("/users", require("./routes/users"));
 
+//establish /TODOS route
+app.use("/todos", require("./routes/todo"));
+
 //show server is listening
 app.listen(PORT, () => console.log(`The server has started on port: ${PORT}`));
