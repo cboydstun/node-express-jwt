@@ -2,6 +2,7 @@ const router = require('express').Router();
 const auth = require('../middleware/auth');
 const ToDo = require('../models/Todo');
 
+//@POST CREATE NEW TODO ITEM - REQUIRES JWT
 router.post("/", auth, async(req,res) => {
     try{
         const { title } = req.body;
@@ -19,6 +20,7 @@ router.post("/", auth, async(req,res) => {
     }
 })
 
+//@GET READ ALL TODOS - REQUIRES JWT
 router.get("/all", auth, async(req,res) => {
     const todos = await ToDo.find({});
     res.json(todos);
